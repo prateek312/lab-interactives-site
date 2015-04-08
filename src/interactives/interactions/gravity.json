@@ -1,0 +1,233 @@
+{
+  "title": "Gravity and its corresponding Kinetic Energy",
+  "publicationStatus": "public",
+  "subtitle": "Energy",
+  "aspectRatio": 1.5,
+  "fontScale": 0.75,
+  "about": [
+    "The energy of motion is called *kinetic energy*. The amount of kinetic energy ",
+    "an object has depends on its mass and speed. Objects that interact with each ",
+    "other can transfer energy between them. Use the controls in this interactive to ",
+    "explore how this energy transfer occurs."
+  ],
+  "models": [
+    {
+      "type": "md2d",
+      "id": "gravity$0",
+      "url": "models/lab-version/1/md2d/interactions/gravity/Gravity.json",
+      "importedFrom": "imports/legacy-mw-content/interactions/gravity/gravity$0.mml",
+      "viewOptions": {
+        "velocityVectors": {
+          "length": 15
+        },
+        "controlButtons": "play_reset"
+      },
+      "modelOptions": {
+        "unitsScheme": "mks",
+        "timeStepsPerTick": 333,
+        "timeStep": 0.5,
+        "modelSampleRate": 60
+      },
+      "onLoad": [
+        "onPropertyChange('time', function(time){",
+        "  setComponentDisabled('left-speed', true);",
+        "  setComponentDisabled('right-speed', true);",
+        "  setComponentDisabled('object-offset', true);",
+        "});",
+        "setComponentDisabled('left-speed', false);",
+        "setComponentDisabled('right-speed', false);",
+        "setComponentDisabled('object-offset', false);"
+      ]
+    }
+  ],
+  "parameters": [
+    {
+      "name": "left-speed",
+      "initialValue": 1,
+      "onChange": "setAtomProperties(0, {vx: value});"
+    },
+    {
+      "name": "right-speed",
+      "initialValue": 2,
+      "onChange": "setAtomProperties(1, {vx: value});"
+    },
+    {
+      "name": "object-offset",
+      "initialValue": 0,
+      "onChange": "setAtomProperties(0, {y: 0.75 - 0.085 * value});setAtomProperties(1, {y: 0.75 + 0.085 * value});"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "left-ke",
+      "unitAbbreviation": "J",
+      "label": "KE of yellow object",
+      "value": [
+        "var props = getAtomProperties(0);",
+        "// KE = (1/2)mv^2",
+        "return 0.5 * 0.1 * props.mass * (props.vx * props.vx + props.vy * props.vy)"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "type": "slider",
+      "id": "left-speed",
+      "min": 0.0,
+      "max": 1.0,
+      "value": 1,
+      "steps": 3,
+      "displayValue": "return format('.1f')(value)",
+      "labels": [
+        {
+          "value": 0.0,
+          "label": "0.0"
+        },
+        {
+          "value": 0.3,
+          "label": "0.3"
+        },
+        {
+          "value": 0.5,
+          "label": "0.5"
+        },
+        {
+          "value": 1.0,
+          "label": "1.0"
+        }
+      ],
+      "title": "Elasticity",
+      "property": "left-speed",
+      "width": "20em"
+    },
+    {
+      "type": "slider",
+      "id": "right-speed",
+      "min": 0.0,
+      "max": 1.0,
+      "value": 0.2,
+      "steps": 3,
+      "displayValue": "return format('.1f')(value)",
+      "labels": [
+        {
+          "value": 0.0,
+          "label": "0.0"
+        },
+        {
+          "value": 0.2,
+          "label": "0.2"
+        },
+        {
+          "value": 0.5,
+          "label": "0.5"
+        },
+        {
+          "value": 0.8,
+          "label": "0.8"
+        }
+      ],
+      "title": "Air Friction",
+      "property": "right-speed",
+      "width": "20em"
+    },
+    {
+      "type": "slider",
+      "id": "object-offset",
+      "min": 0,
+      "max": 25,
+      "value": 10,
+      "steps": 25,
+      "labels": [
+        {
+          "value": 0,
+          "label": "0"
+        },
+        {
+          "value": 5,
+          "label": "5"
+        },
+        {
+          "value": 10,
+          "label": "10"
+        },
+        {
+          "value": 15,
+          "label": "15"
+        },
+        {
+          "value": 20,
+          "label": "20"
+        },
+        {
+          "value": 25,
+          "label": "25"
+        }
+      ],
+      "title": "Gravitational Field",
+      "property": "object-offset",
+      "width": "20em"
+    },
+    {
+      "type": "graph",
+      "id": "ke-plot",
+      "title": "",
+      "xlabel": "Time (s)",
+      "ylabel": "Kinetic Energy (J)",
+      "ymin": 0,
+      "ymax": 22,
+      "xmax": 10,
+      "xTickCount": 5,
+      "yTickCount": 6,
+      "xFormatter": ".2r",
+      "yFormatter": ".2s",
+      "dataColors": [
+        "#e69230"
+      ],
+      "properties": [
+        "left-ke"
+      ],
+      "legendLabels": [
+        "KE of left object"
+      ],
+      "legendVisible": true
+    }
+  ],
+  "template": [
+    {
+      "id": "bottom-left",
+      "top": "model.bottom",
+      "left": "model.left",
+      "width": "model.width",
+      "align": "center",
+      "padding-top": "0.5em"
+    },
+    {
+      "id": "bottom-right",
+      "top": "model.bottom",
+      "left": "model.right",
+      "right": "interactive.right",
+      "align": "center",
+      "padding-left": "1.5em"
+    },
+    {
+      "id": "right",
+      "top": "0",
+      "height": "model.height",
+      "right": "interactive.right",
+      "left": "model.right",
+      "align": "center",
+      "padding-bottom": "0.5em",
+      "padding-left": "1.5em"
+    }
+  ],
+	  "layout": {
+		  "bottom-left": [
+			  ["left-speed"],
+		  ["right-speed"],
+		  ["object-offset"]
+			  ],
+		  "right": [
+			  "ke-plot"
+			  ]
+	  }
+}

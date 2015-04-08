@@ -17,7 +17,7 @@
       "viewOptions": {
         "controlButtons": "play_reset_step"
       },
-      "onLoad": "set({temperatureControl: true}); set({targetTemperature: 10000});"
+      "onLoad": "set({temperatureControl: true}); set({targetTemperature: 1000});"
     }
   ],
   "components": [
